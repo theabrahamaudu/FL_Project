@@ -2,8 +2,8 @@ import joblib
 import tensorflow as tf
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras import backend as K
-from utils.model_architecture import SimpleMLP
-from utils.client_utils import batch_data
+from src.utils.model_architecture import SimpleMLP
+from src.utils.client_utils import batch_data
 
 
 def client_process(client_data: str, global_weights, comms_round):

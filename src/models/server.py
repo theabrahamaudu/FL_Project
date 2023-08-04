@@ -1,9 +1,9 @@
 import tensorflow as tf
 import random
 import joblib
-from utils.model_architecture import SimpleMLP
+from src.utils.model_architecture import SimpleMLP
 from client import client_process
-from utils.server_utils import (scan_directory,
+from src.utils.server_utils import (scan_directory,
                                 scale_weights,
                                 sum_scaled_weights,
                                 test_model)
