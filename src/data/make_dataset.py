@@ -1,3 +1,7 @@
+"""
+Handles data loading and transformations
+"""
+
 import numpy as np
 import random
 import cv2
@@ -9,9 +13,21 @@ from sklearn.model_selection import train_test_split
 import joblib
 
 
-def load(paths, verbose=-1):
-    '''expects images for each class in seperate dir, 
-    e.g all digits in 0 class in the directory named 0 '''
+def load(paths: list, verbose: int = 10000) -> tuple:
+    """Loads each image, converts it to a numpy array and adds the array to list.
+       Adds source folder name as label on same index in separate labels list.
+
+       expects images for each class in seperate dir, 
+       e.g all digits in 0 class in the directory named 0
+
+    Args:
+        paths (list): list of numbered subdirs
+        verbose (int, optional): Option to display load progress at given file threshold. Defaults to 10000.
+
+    Returns:
+        tuple: List of image arrays, List of image labels
+    """
+    
     data = list()
     labels = list()
     # loop over the input images
@@ -29,16 +45,20 @@ def load(paths, verbose=-1):
     # return a tuple of the data and labels
     return data, labels
 
-def create_clients(image_list, label_list, num_clients=10, initial='clients'):
-    ''' return: a dictionary with keys clients' names and value as 
-                data shards - tuple of images and label lists.
-        args: 
-            image_list: a list of numpy arrays of training images
-            label_list:a list of binarized labels for each image
-            num_client: number of fedrated members (clients)
-            initials: the clients'name prefix, e.g, clients_1 
-            
-    '''
+def create_clients(image_list: list, label_list: list, num_clients: int=4, initial: str='clients') -> dict:
+    """Takes list of numpy arrays and labels, randomize and splits data into number of parts specified 
+    as `num_clients`, names each part (list of array-label tuples) with prefix specified as `initial` followed by the
+    part number e.g. `clients_2`. Saves each client data to file.
+
+    Args:
+        image_list (list): List of image numpy arrays
+        label_list (list): List of image labels
+        num_clients (int, optional): Number of client datasets to create. Defaults to 4.
+        initial (str, optional): Prefix string for client names. Defaults to 'clients'.
+
+    Returns:
+        dict: client names as keys and file path as values.
+    """
 
     #create a list of client names
     client_names = ['{}_{}'.format(initial, i+1) for i in range(num_clients)]
@@ -58,7 +78,16 @@ def create_clients(image_list, label_list, num_clients=10, initial='clients'):
 
     return {client_names[i] : f"./data/interim/{client_names[i]}.joblib" for i in range(len(client_names))}
 
-def save_test_set(X_test, y_test):
+def save_test_set(X_test, y_test) -> dict:
+    """Save test arrays and labels to file
+
+    Args:
+        X_test (list): Image numpy arrays
+        y_test (list): Lablels
+
+    Returns:
+        dict: Saved file paths
+    """
     _ = joblib.dump(X_test, "./data/interim/X_test.joblib")
     _ = joblib.dump(y_test, "./data/interim/y_test.joblib")
 

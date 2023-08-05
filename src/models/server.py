@@ -1,3 +1,7 @@
+"""
+Server module to initiate federated learning on client devices.
+"""
+
 import tensorflow as tf
 import random
 import joblib
@@ -10,12 +14,18 @@ from src.utils.server_utils import (scan_directory,
 
 
 def server_process(comms_round: int):
+    """Initialize global model, load test set, run federated learning
+    loop across client devices for `comms_round` epochs.
+
+    Args:
+        comms_round (int): Number of global training rounds
+    """
 
     #initialize global model
     smlp_global = SimpleMLP()
     global_model = smlp_global.build(784, 10)
 
-    # process and batch the test set
+    # Load and batch the test set
     data_path = "./data/interim"
     X_test = joblib.load(data_path+"/X_test.joblib")
     y_test = joblib.load(data_path+"/y_test.joblib")
@@ -32,6 +42,7 @@ def server_process(comms_round: int):
         client_names= scan_directory(client_data_path, "client")
         random.shuffle(client_names)
 
+        # initialize global data points count, client feedback dict
         global_count = 0
         client_feedback = {}
 
@@ -63,9 +74,9 @@ def server_process(comms_round: int):
         # Update global model weights
         global_model.set_weights(average_weights)
 
-        #test global model and print out metrics after each communications round
+        # Test global model and print out metrics after each communications round
         for(X_test, Y_test) in test_batched:
             global_acc, global_loss = test_model(X_test, Y_test, global_model, comm_round)
 
 if __name__ == "__main__":
-    server_process(comms_round=5)
+    server_process(comms_round=5) # Run global training for 5 epochs
