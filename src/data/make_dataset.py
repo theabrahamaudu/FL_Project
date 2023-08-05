@@ -9,7 +9,6 @@ import os
 from imutils import paths
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
-from sklearn.model_selection import train_test_split
 import joblib
 
 
@@ -94,28 +93,28 @@ def save_test_set(X_test, y_test) -> dict:
     return {"X_test": "./data/interim/X_test.joblib",
             "y_test": "./data/interim/y_test.joblib"}
 
-if __name__=="__main__":
-    # path to data folder
-    img_path = 'data/raw/trainingSet/trainingSet'
+# if __name__=="__main__":
+#     # path to data folder
+#     img_path = 'data/raw/trainingSet/trainingSet'
 
-    # get the path list using the path object
-    image_paths = list(paths.list_images(img_path))
+#     # get the path list using the path object
+#     image_paths = list(paths.list_images(img_path))
 
-    # apply our function
-    image_list, label_list = load(image_paths, verbose=10000)
+#     # apply our function
+#     image_list, label_list = load(image_paths, verbose=10000)
 
-    # binarize the labels
-    lb = LabelBinarizer()
-    label_list = lb.fit_transform(label_list)
+#     # binarize the labels
+#     lb = LabelBinarizer()
+#     label_list = lb.fit_transform(label_list)
 
-    # split data into training and test set
-    X_train, X_test, y_train, y_test = train_test_split(image_list, 
-                                                        label_list, 
-                                                        test_size=0.1, 
-                                                        random_state=42)
+#     # split data into training and test set
+#     X_train, X_test, y_train, y_test = train_test_split(image_list, 
+#                                                         label_list, 
+#                                                         test_size=0.1, 
+#                                                         random_state=42)
 
-    # create clients
-    clients = create_clients(X_train, y_train, num_clients=4, initial='client')
+#     # create clients
+#     clients = create_clients(X_train, y_train, num_clients=4, initial='client')
 
-    # save test set
-    test_set = save_test_set(X_test=X_test, y_test=y_test)
+#     # save test set
+#     test_set = save_test_set(X_test=X_test, y_test=y_test)

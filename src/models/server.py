@@ -6,7 +6,7 @@ import tensorflow as tf
 import random
 import joblib
 from src.utils.model_architecture import SimpleMLP
-from client import client_process
+from src.models.client import client_process
 from src.utils.server_utils import (scan_directory,
                                 scale_weights,
                                 sum_scaled_weights,
