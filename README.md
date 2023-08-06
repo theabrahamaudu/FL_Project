@@ -1,4 +1,4 @@
-FL_Project
+Federated Learning Project
 ==============================
 
 Federated Learning project with TensorFlow
@@ -38,20 +38,40 @@ Project Organization
     │   ├── data           <- Scripts to download or generate data
     │   │   └── make_dataset.py
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   │   ├── client.py
+    │   │   └── server.py
     │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │   └── utils          <- Scripts to create exploratory and results oriented visualizations
+    │       ├── client_utils.py
+    │       ├── model_architecture.py
+    │       └── server_utils.py
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
 
 --------
+# Getting Started
+## Overview
+This project contains a federated learning model approach to model building where the model is sent to the data and the data is ditributed across multiple clients as opposed to traditional model development where data is aggregated in a central storage for model training to take place.
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+The project was built using Tensorflow and is more conceptual in that the central server and lcient modules are separated in principle and model weights are transferred during the federated learning process, but the communication is direct rather than over a network as it would be in real-world depoloyment.
+
+The primary purpose of the project is to demonsrate that models can be trained using private data on client machines without the central server or global model ever actually sseeing the data on the client devices. 
+
+From a security perspective, this architechture can be taken a step further in real world applications by communicating the model weights between the client machines and the central server via a blockchain network to ensure the security and integrity of the model training process.
+
+## Requirements
+- Windows 10, Ubuntu, any other Python supported OS
+- Python 3.10
+
+## Experimenting
+To start experimenting with this repository, follow the following steps:
+- Clone this repository by running: ```git clone https://github.com/theabrahamaudu/FL_Project.git .```
+- Create a virtual evironment (optional, recommended)
+- Install the required modules: ```pip install -r requirements.txt```
+- Download the dataset [here](https://drive.google.com/file/d/1MIAaSVbohQJszAXjIxkWiup_8zZ2QB25/view?usp=drive_link) and extract it in the data directory on the root folder
+- Run the complete pipeline: ```python main.py```
+
+Congratulations! You have now replicated the project setup.
